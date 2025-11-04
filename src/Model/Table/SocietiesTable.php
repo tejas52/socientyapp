@@ -12,7 +12,7 @@ class SocietiesTable extends Table
         $this->setPrimaryKey('id');
         $this->addBehavior('Timestamp');
         $this->hasMany('Wings', [
-            'className' => 'SocietyMaintenance.Wings',
+            'className' => 'Wings',
             'foreignKey' => 'society_id'
         ]);
         $this->hasMany('Members', [

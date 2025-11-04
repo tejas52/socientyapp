@@ -17,9 +17,11 @@
             ?>
 <tr>
     <td><?= h($society->id) ?></td>
-    <td><?= h($society->name) ?></td>
+    <td><?= $this->Html->link($society->name, ['action' => 'getWingsBySocietyId', $society->id]) ?>
+</td>
         <td><?= h($society->address) ?></td>
-        <td><?= h($society->created) ?></td>
+        <td><?= h($society->created) ?>
+    </td>
 
     <td>
         <?= $this->Html->link('View', ['action' => 'view', $society->id]) ?>

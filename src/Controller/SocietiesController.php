@@ -61,4 +61,14 @@ class SocietiesController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
+
+    public function getWingsBySocietyId($society_id){
+        $society = $this->Societies->get($society_id, [
+            'contain' => ['Wings']
+        ]);
+        $wings = $society->wings;
+        $this->set(compact('wings', 'society'));
+
+       
+    }
 }

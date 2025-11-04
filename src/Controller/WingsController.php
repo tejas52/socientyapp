@@ -72,4 +72,16 @@ class WingsController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
+
+    public function getFlatsByWingId($wing_id){
+        $wing = $this->Wings->get($wing_id, [
+            'contain' => ['Flats','Societies']
+        ]);
+        $flats = $wing->flats;
+        $society = $wing->society;
+        $this->set(compact('flats', 'wing', 'members','society'));
+
+       
+    }
+    
 }
