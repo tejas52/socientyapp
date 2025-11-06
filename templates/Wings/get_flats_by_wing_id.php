@@ -18,10 +18,17 @@
         <td><?= h($flat->owner_name) ?></td>
         <td><?= count($flat->members ?? []) ?></td>
         <td>
-            <?= $this->Html->link('View', ['action' => 'view', $flat->id]) ?> |
-            <?= $this->Html->link('Edit', ['action' => 'edit', $flat->id]) ?> |
-            <?= $this->Form->postLink('Delete', ['action' => 'delete', $flat->id], ['confirm' => 'Are you sure?']) ?>
-        </td>
+                <?= $this->Html->link(' View ', '/flats/view/' . $flat->id) ?>
+                <?= $this->Html->link(' Edit ', '/flats/edit/' . $flat->id) ?>
+                <?= $this->Form->postLink(
+                    'Delete',
+                    ['controller' => 'Flats', 'action' => 'delete', $flat->id],
+                    [
+                        'confirm' => 'Are you sure you want to delete this Flat?',
+                        'class' => 'btn btn-danger'
+                    ]
+                ) ?>
+            </td>
     </tr>
     <?php endforeach; ?>
 </table>

@@ -17,14 +17,25 @@
             ?>
 <tr>
     <td><?= h($society->id) ?></td>
-    <td><?= $this->Html->link($society->name, ['action' => 'getWingsBySocietyId', $society->id]) ?>
+    <td><?= $this->Html->link($society->name, ['action' => 'getWingsBySocietyId', (int)$society->id]) ?>
 </td>
         <td><?= h($society->address) ?></td>
         <td><?= h($society->created) ?>
     </td>
 
     <td>
-        <?= $this->Html->link('View', ['action' => 'view', $society->id]) ?>
+<?= $this->Html->link(' View ', '/societies/view/' . $society->id) ?>
+<?= $this->Html->link(' Edit ', '/societies/edit/' . $society->id) ?>
+<?= $this->Form->postLink(
+    'Delete',
+    ['controller' => 'Societies', 'action' => 'delete', $society->id],
+    [
+        'confirm' => 'Are you sure you want to delete this society?',
+        'class' => 'btn btn-danger'
+    ]
+) ?>
+
+
     </td>
 </tr>
 <?php endforeach; ?>

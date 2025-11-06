@@ -6,22 +6,34 @@ return function (RouteBuilder $routes): void {
     $routes->setRouteClass(DashedRoute::class);
 
     // Default Pages routes
-    $routes->scope('/', function (RouteBuilder $builder): void {
-        $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
-        $builder->connect('/pages/*', 'Pages::display');
-        $builder->fallbacks(DashedRoute::class);
-    });
+   $routes->scope('/', function (RouteBuilder $builder): void {
+    $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+    $builder->connect('/pages/*', 'Pages::display');
+
+    // ✅ Must come BEFORE fallback
+    $builder->connect(
+        '/societies/view/:id',
+        ['controller' => 'Societies', 'action' => 'view']
+    )
+    ->setPass(['id'])
+    ->setPatterns(['id' => '\d+']);
+
+    // ⚠️ Keep fallback LAST
+    $builder->fallbacks(DashedRoute::class);
+});
+
     $routes->connect('/dashboard', ['controller' => 'Dashboard', 'action' => 'index']);
 
     // -------------------------------
     // Societies Routes
     // -------------------------------
+    // $routes->connect('/societies/view/:id', ['controller' => 'Societies', 'action' => 'view'])
+    //     ->setPass(['id'])->setPatterns(['id' => '\d+']);
     $routes->connect('/societies', ['controller' => 'Societies', 'action' => 'index']);
     $routes->connect('/societies/add', ['controller' => 'Societies', 'action' => 'add']);
     $routes->connect('/societies/edit/:id', ['controller' => 'Societies', 'action' => 'edit'])
         ->setPass(['id'])->setPatterns(['id' => '\d+']);
-    $routes->connect('/societies/view/:id', ['controller' => 'Societies', 'action' => 'view'])
-        ->setPass(['id'])->setPatterns(['id' => '\d+']);
+    
 
     // -------------------------------
     // Wings Routes

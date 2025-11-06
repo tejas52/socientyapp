@@ -26,9 +26,17 @@
                 ) ?>
             </td>
             <td>
-                <?= $this->Html->link('View', ['action' => 'view', $wing->id]) ?>
-                <?= $this->Html->link('Edit', ['action' => 'edit', $wing->id]) ?>
-                <?= $this->Form->postLink('Delete', ['action' => 'delete', $wing->id], ['confirm' => 'Are you sure?']) ?>
+                <td>
+                <?= $this->Html->link(' View ', '/wings/view/' . $wing->id) ?>
+                <?= $this->Html->link(' Edit ', '/wings/edit/' . $wing->id) ?>
+                <?= $this->Form->postLink(
+                    'Delete',
+                    ['controller' => 'Wings', 'action' => 'delete', $wing->id],
+                    [
+                        'confirm' => 'Are you sure you want to delete this Wing?',
+                        'class' => 'btn btn-danger'
+                    ]
+                ) ?>
             </td>
         </tr>
         <?php endforeach; ?>
