@@ -2,16 +2,27 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use App\Model\Entity\Members;
 
 class MaintenanceChargesController extends AppController
 {
+    protected $Members;
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->Members = $this->fetchTable('Members');
+    }   
+
     public function index()
     {
-        $charges = $this->MaintenanceCharges
-            ->find()
-            ->contain(['Societies', 'Wings', 'Flats'])
-            ->all();
-
+       $charges = $this->MaintenanceCharges
+    ->find()
+    ->contain([
+        'Societies',
+        'Wings',
+        'Flats' => ['Members'] // ✅ correct
+    ])
+    ->all();
         $this->set(compact('charges'));
     }
 
@@ -40,6 +51,16 @@ class MaintenanceChargesController extends AppController
 
         if ($this->request->is('post')) {
             $maintenanceCharge = $this->MaintenanceCharges->patchEntity($maintenanceCharge, $this->request->getData());
+            $reqdata = $this->request->getData();
+            $member = $this->Members->find()
+    ->where(['Members.flat_id' => $reqdata['flat_id']])
+    ->first();
+    
+    if(!$member){
+        $this->Flash->error(__('No member found for the selected flat.'));
+        return $this->redirect(['action' => 'add']);
+    }
+    $phone = $member->phone;
             if ($this->MaintenanceCharges->save($maintenanceCharge)) {
                 $this->Flash->success(__('Maintenance charge saved.'));
                 return $this->redirect(['action' => 'index']);

@@ -35,6 +35,10 @@ class FlatsController extends AppController
     try {
         if ($this->request->is('post')) {
             $flat = $flatsTable->patchEntity($flat, $this->request->getData());
+            // echo "<pre>"; print_r($flat);
+            // echo "*****************";
+            // print($this->request->getData());
+            
 
             if ($flatsTable->save($flat)) {
                 $this->Flash->success(__('The flat has been saved.'));

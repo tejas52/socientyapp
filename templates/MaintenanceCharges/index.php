@@ -11,7 +11,9 @@
         <th>Status</th>
         <th>Actions</th>
     </tr>
-    <?php foreach ($charges as $charge): ?>
+    <?php foreach ($charges as $charge):
+        $phone = $charge->flat->member->phone;
+        ?>
     <tr>
         <td><?= h($charge->society->name) ?></td>
         <td><?= h($charge->wing->name) ?></td>
@@ -22,6 +24,9 @@
         <td><?= h($charge->status) ?></td>
         <td>
             <?= $this->Html->link('View', ['action' => 'view', $charge->id]) ?>
+            <a href="https://wa.me/<?= h($phone) ?>?text=my name is tejas" target="_blank">
+ Send
+</a>
         </td>
     </tr>
     <?php endforeach; ?>
