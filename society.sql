@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 06, 2025 at 07:55 PM
+-- Generation Time: Dec 19, 2025 at 07:08 PM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -39,20 +39,16 @@ CREATE TABLE IF NOT EXISTS `flats` (
   PRIMARY KEY (`id`),
   KEY `wing_id` (`wing_id`),
   KEY `member_id` (`member_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `flats`
 --
 
 INSERT INTO `flats` (`id`, `wing_id`, `flat_no`, `owner_name`, `member_id`, `created`, `modified`) VALUES
-(5, 6, '', 'Simona Kamal Modi', 1, '2025-10-05 15:58:27', NULL),
-(6, 6, '', 'simana fkljfa', 2, '2025-10-05 15:58:55', NULL),
-(7, 6, '', 'Gautam pandey', 1, '2025-10-08 16:49:50', NULL),
-(8, 6, '', 'fafadf', NULL, '2025-10-08 16:53:02', NULL),
-(9, 3, '', 'fafafa', 2, '2025-10-08 16:56:03', NULL),
-(10, 3, '401', '14313', 2, '2025-10-08 16:56:56', '2025-10-08 19:43:08'),
-(11, 2, '201', 'dfadf', 2, '2025-10-08 16:57:55', '2025-10-08 19:42:48');
+(12, 4, '101', 'tejas', 1, '2025-12-17 19:37:01', NULL),
+(13, 2, '101', 'dfadf', 1, '2025-12-17 19:42:23', NULL),
+(14, 6, '1302', 'Tejas Parmar', 1, '2025-12-17 19:46:21', NULL);
 
 -- --------------------------------------------------------
 
@@ -95,7 +91,16 @@ CREATE TABLE IF NOT EXISTS `maintenance_charges` (
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
   `modified` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `maintenance_charges`
+--
+
+INSERT INTO `maintenance_charges` (`id`, `society_id`, `wing_id`, `flat_id`, `month`, `month_number`, `year`, `amount`, `penalty`, `status`, `remarks`, `created`, `modified`) VALUES
+(1, 2, 6, 11, '0000', 0, '2025', 1300.00, 0.00, 'Paid', NULL, '2025-11-08 14:39:50', '2025-11-08 14:39:50'),
+(2, 2, 6, 11, '0000', 0, '2025', 1300.00, 0.00, 'Pending', NULL, '2025-11-09 09:13:54', '2025-11-09 09:13:54'),
+(3, 2, 6, 14, '0000', 0, '2025', 1212.00, 0.00, 'Paid', NULL, '2025-12-17 19:57:18', '2025-12-17 19:57:18');
 
 -- --------------------------------------------------------
 
@@ -145,8 +150,7 @@ CREATE TABLE IF NOT EXISTS `members` (
 --
 
 INSERT INTO `members` (`id`, `society_id`, `wing_id`, `flat_id`, `name`, `email`, `phone`, `created`, `modified`) VALUES
-(1, 2, 6, 3, 'Tejas Parmar', 'tejasparmar1991@gmail.com', '07048578018', '2025-09-28 11:22:10', NULL),
-(2, 2, 1, 3, 'Tejas Parmar', 'tejasparmar1991@gmail.com', '07048578018', '2025-09-28 12:01:06', NULL);
+(1, 2, 6, 14, 'Tejas Parmar', 'tejasparmar1991@gmail.com', '08460855278', '2025-09-28 11:22:10', '2025-12-17 19:56:55');
 
 -- --------------------------------------------------------
 
@@ -182,6 +186,30 @@ CREATE TABLE IF NOT EXISTS `phinxlog_2` (
   `breakpoint` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roles`
+--
+
+DROP TABLE IF EXISTS `roles`;
+CREATE TABLE IF NOT EXISTS `roles` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `created` datetime DEFAULT CURRENT_TIMESTAMP,
+  `modified` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`, `created`, `modified`) VALUES
+(1, 'admin', '2025-12-20 00:36:44', '2025-12-20 00:36:44'),
+(2, 'society_admin', '2025-12-20 00:36:44', '2025-12-20 00:36:44'),
+(3, 'member', '2025-12-20 00:36:44', '2025-12-20 00:36:44');
 
 -- --------------------------------------------------------
 
@@ -237,6 +265,28 @@ CREATE TABLE IF NOT EXISTS `society_maintenance_phinxlog` (
   `breakpoint` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `email` varchar(150) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `role_id` int NOT NULL,
+  `society_id` int DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '1',
+  `created` datetime DEFAULT CURRENT_TIMESTAMP,
+  `modified` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`),
+  KEY `role_id` (`role_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 

@@ -7,6 +7,7 @@ class MaintenanceCharge extends Entity
 {
     // Allow mass assignment for these fields
     protected array $_accessible = [
+        'paid_date' => true,
         'society_id' => true,
         'wing_id' => true,
         'flat_id' => true,

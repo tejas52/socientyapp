@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use App\Model\Entity\Members;
+use Cake\I18n\FrozenDate;
 
 class MaintenanceChargesController extends AppController
 {
@@ -52,6 +53,7 @@ class MaintenanceChargesController extends AppController
         if ($this->request->is('post')) {
             $maintenanceCharge = $this->MaintenanceCharges->patchEntity($maintenanceCharge, $this->request->getData());
             $reqdata = $this->request->getData();
+            // echo '<pre>'; print_r($reqdata); echo '</pre>'; exit;
             $member = $this->Members->find()
     ->where(['Members.flat_id' => $reqdata['flat_id']])
     ->first();

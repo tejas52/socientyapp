@@ -95,4 +95,29 @@ class FlatsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function getWings($societyId = null)
+    {
+        $this->request->allowMethod(['get']);
+        $this->autoRender = false;
+
+        $wings = $this->Wings->find('list')
+            ->where(['society_id' => $societyId])
+            ->toArray();
+
+        echo json_encode($wings);
+    }
+
+    public function getFlats($wingId = null)
+    {
+        $this->request->allowMethod(['get']);
+        $this->autoRender = false;
+
+        $flats = $this->Flats->find('list')
+            ->where(['wing_id' => $wingId])
+            ->toArray();
+
+        echo json_encode($flats);
+    }
+
 }
