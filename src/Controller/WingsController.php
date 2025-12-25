@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Http\Exception\NotFoundException;
 
 class WingsController extends AppController
 {
@@ -73,15 +74,30 @@ class WingsController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    public function getFlatsByWingId($wing_id){
-        $wing = $this->Wings->get($wing_id, [
-            'contain' => ['Flats','Societies']
-        ]);
-        $flats = $wing->flats;
-        $society = $wing->society;
-        $this->set(compact('flats', 'wing', 'members','society'));
 
-       
+public function getFlatsByWingId($wingId)
+{
+    $this->request->allowMethod(['get']);
+
+    $wing = $this->Wings->find()
+        ->contain(['Flats'])
+        ->where(['Wings.id' => $wingId])
+        ->first();
+
+    if (!$wing) {
+        throw new NotFoundException('Wing not found');
     }
+
+    $flats = [];
+
+    foreach ($wing->flats as $flat) {
+        $flats[$flat->id] = $flat->flat_no; // change field if needed
+    }
+
+    return $this->response
+        ->withType('application/json')
+        ->withStringBody(json_encode($flats));
+}
+
     
 }

@@ -12,6 +12,9 @@ class MaintenanceChargesController extends AppController
     {
         parent::initialize();
         $this->Members = $this->fetchTable('Members');
+        $this->loadComponent('Flash'); // ✅ REQUIRED
+        $this->viewBuilder()->setLayout('admin');
+
     }   
 
     public function index()

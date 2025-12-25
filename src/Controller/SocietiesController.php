@@ -2,6 +2,8 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Log\Log;
+use Cake\Http\Exception\NotFoundException;
 
 class SocietiesController extends AppController
 {
@@ -62,13 +64,29 @@ class SocietiesController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    public function getWingsBySocietyId($society_id){
-        $society = $this->Societies->get($society_id, [
-            'contain' => ['Wings']
-        ]);
-        $wings = $society->wings;
-        $this->set(compact('wings', 'society'));
 
-       
+public function getWingsBySocietyId($societyId)
+{
+    $this->request->allowMethod(['get']);
+
+    $society = $this->Societies->find()
+        ->contain(['Wings'])
+        ->where(['Societies.id' => $societyId])
+        ->first();
+
+    if (!$society) {
+        throw new NotFoundException('Society not found');
     }
+
+    $wings = [];
+
+    foreach ($society->wings as $wing) {
+        $wings[$wing->id] = $wing->name;
+    }
+
+    return $this->response
+        ->withType('application/json')
+        ->withStringBody(json_encode($wings));
+}
+
 }

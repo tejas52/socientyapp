@@ -41,7 +41,8 @@ class AppController extends Controller
     {
         parent::initialize();
 
-        $this->loadComponent('Flash');
+        // $this->loadComponent('Flash');
+        $this->viewBuilder()->setLayout('admin');
 
         /*
          * Enable the following component for recommended CakePHP form protection settings.
@@ -49,4 +50,12 @@ class AppController extends Controller
          */
         //$this->loadComponent('FormProtection');
     }
+
+    public function beforeRender(\Cake\Event\EventInterface $event)
+{
+    if ($this->request->getParam('prefix') === 'Admin') {
+        $this->viewBuilder()->setLayout('admin');
+    }
+}
+
 }
