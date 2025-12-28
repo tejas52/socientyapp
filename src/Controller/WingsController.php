@@ -6,6 +6,12 @@ use Cake\Http\Exception\NotFoundException;
 
 class WingsController extends AppController
 {
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadComponent('Flash'); // ✅ REQUIRED
+
+    }
     public function index()
     {
         $wings = $this->fetchTable('Wings')->find('all')->contain(['Societies']);

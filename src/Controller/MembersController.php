@@ -5,6 +5,13 @@ use App\Controller\AppController;
 
 class MembersController extends AppController
 {
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadComponent('Flash'); // ✅ REQUIRED
+
+    }
+
     public function index()
     {
         $members = $this->Members->find('all')
@@ -15,7 +22,7 @@ class MembersController extends AppController
     public function view($id = null)
     {
         $member = $this->Members->get($id, [
-            'contain' => ['Societies', 'Wings', 'Flats', 'MaintenanceFees', 'Payments'],
+            'contain' => ['Societies', 'Wings', 'Flats', 'MaintenanceCharges'],
         ]);
         $this->set(compact('member'));
     }

@@ -7,11 +7,17 @@ use Cake\Http\Exception\NotFoundException;
 
 class SocietiesController extends AppController
 {
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadComponent('Flash'); // ✅ REQUIRED
+
+    }
     public function index()
-{
-        $societies = $this->fetchTable('Societies')->find('all')->enableHydration(true);
-        $this->set(compact('societies'));
-}
+    {
+            $societies = $this->fetchTable('Societies')->find('all')->enableHydration(true);
+            $this->set(compact('societies'));
+    }
 
 
 

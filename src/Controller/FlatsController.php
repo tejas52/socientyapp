@@ -5,6 +5,12 @@ namespace App\Controller;
 
 class FlatsController extends AppController
 {
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadComponent('Flash'); // ✅ REQUIRED
+
+    }
     public function index()
     {
        $flats = $this->fetchTable('Flats')

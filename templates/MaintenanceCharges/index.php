@@ -64,8 +64,8 @@
         <td><?= h($charge->penalty) ?></td>
         <td><?= h($charge->status) ?></td>
         <td>
-            <?= $this->Html->link('View', ['action' => 'view', $charge->id]) ?>
-            <a href="https://wa.me/<?= h($phone) ?>?text=my name is tejas" target="_blank">
+            <?= $this->Html->link('View', ['action' => 'view', $charge->id], ['class' => 'btn btn-info']) ?>
+            <a href="https://wa.me/<?= h($phone) ?>?text=my name is tejas" target="_blank" class="btn btn-info"  >
  Send
 </a>
         </td>

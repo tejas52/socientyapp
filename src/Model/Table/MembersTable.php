@@ -34,9 +34,9 @@ class MembersTable extends Table
     'joinType' => 'INNER',
 ]);
 
-        // $this->hasMany('MaintenanceFees', [
-        //     'foreignKey' => 'member_id',
-        // ]);
+        $this->hasMany('MaintenanceCharges', [
+            'foreignKey' => 'member_id',
+        ]);
 
         // $this->hasMany('Payments', [
         //     'foreignKey' => 'member_id',

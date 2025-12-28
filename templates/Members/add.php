@@ -1,10 +1,70 @@
-<h1><?= $this->fetch('title') ?: 'Add/Edit Member' ?></h1>
+<main class="app-main">
+        <!--begin::App Content Header-->
+        <div class="app-content-header">
+          <!--begin::Container-->
+          <div class="container-fluid">
+            <!--begin::Row-->
+            <!-- <div class="row">
+              
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Maintenance Charges</li>
+                </ol>
+              </div>
+            </div> -->
+            <!--end::Row-->
+          </div>
+          <!--end::Container-->
+        </div>
+        <!--end::App Content Header-->
+        <!--begin::App Content-->
+        <div class="app-content">
+          <!--begin::Container-->
+          <div class="container-fluid">
+            <!--begin::Row-->
+            <div class="row g-4">
+              <!--begin::Col-->
+              
+              <!--end::Col-->
+              <!--begin::Col-->
+              <div class="col-md-6">
+                <!--begin::Quick Example-->
+                <div class="card card-primary card-outline mb-4">
+                  <!--begin::Header-->
+                  <div class="card-header">
+                    <div class="card-title">Add Member</div>
+                  </div>
+                  <!--end::Header-->
+                  <!--begin::Form-->
+
 <?= $this->Form->create($member) ?>
-    <?= $this->Form->control('name') ?>
-    <?= $this->Form->control('email') ?>
-    <?= $this->Form->control('phone') ?>
-    <?= $this->Form->control('society_id', ['options' => $societies]) ?>
-    <?= $this->Form->control('wing_id', ['options' => $wings]) ?>
-    <?= $this->Form->control('flat_id', ['options' => $flats]) ?>
-    <?= $this->Form->button(__('Save')) ?>
+    <?= $this->Form->control('name',['class' => 'form-control']) ?>
+    <?= $this->Form->control('email',['class' => 'form-control']) ?>
+    <?= $this->Form->control('phone',['class' => 'form-control']) ?>
+    <?= $this->Form->control('society_id', ['options' => $societies, 'class' => 'form-control']) ?>
+    <?= $this->Form->control('wing_id', ['options' => $wings, 'class' => 'form-control']) ?>
+    <?= $this->Form->control('flat_id', ['options' => $flats, 'class' => 'form-control']) ?>
+<?= $this->Form->button(__(singular: 'Save'),['class'=>'btn btn-info']) ?>
 <?= $this->Form->end() ?>
+</div>
+                <!--end::Quick Example-->
+                
+                
+              </div>
+              <!--end::Col-->
+              <!--begin::Col-->
+              
+              <!--end::Col-->
+            </div>
+            <!--end::Row-->
+          </div>
+          <!--end::Container-->
+        </div>
+        <!--end::App Content-->
+      </main>
+
+<?= $this->Html->script('https://code.jquery.com/jquery-3.6.0.min.js') ?>
+<?= $this->Html->script('/adminlte/dist/js/adminlte.min.js') ?>
+<?= $this->Html->script('/adminlte/dist/js/adminlte.js') ?>
+
