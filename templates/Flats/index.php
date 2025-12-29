@@ -41,6 +41,7 @@
         <th>Wing</th>
         <th>Society</th>
         <th>Owner</th>
+        <th>Reside Type</th>
         <th>Members</th>
         <th>Actions</th>
     </tr>
@@ -52,6 +53,7 @@
         <td><?= $flat->wing->name ?? '' ?></td>
         <td><?= $flat->wing->society->name ?? '' ?></td>
         <td><?= h($flat->owner_name) ?></td>
+        <td><?= h($flat->reside_type) ?></td>
         <td><?= count($flat->members ?? []) ?></td>
         <td>
                 <?= $this->Html->link(' View ', '/flats/view/' . $flat->id, ['class' => 'btn btn-info']) ?>

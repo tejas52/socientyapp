@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 namespace App\Controller;
+use Cake\Log\Log;
 
 class FlatsController extends AppController
 {
@@ -63,8 +64,9 @@ class FlatsController extends AppController
 
     $wings = $this->fetchTable('Wings')->find('list')->all();
     $members = $this->fetchTable('Members')->find('list')->all();
+    $reside_type = ['Owner' => 'Owner', 'Tenant' => 'Tenant']; 
 
-    $this->set(compact('flat', 'wings', 'members'));
+    $this->set(compact('flat', 'wings', 'members', 'reside_type'));
 }
 
     public function edit($id = null)
@@ -119,11 +121,41 @@ class FlatsController extends AppController
         $this->request->allowMethod(['get']);
         $this->autoRender = false;
 
-        $flats = $this->Flats->find('list')
+        $flats = $this->Flats->find('list') 
             ->where(['wing_id' => $wingId])
             ->toArray();
 
         echo json_encode($flats);
     }
+
+    //GET RESIDE TYPE
+    public function getResideType($flatId = null)
+    {
+
+        $this->request->allowMethod(['get']);
+        $this->autoRender = false;
+        Log::debug('getResideType called with flatId: ' . $flatId);
+        $flatId = (int)$flatId;
+
+        if (!$flatId) {
+            throw new BadRequestException('Invalid Flat ID');
+        }
+
+
+        $flat = $this->Flats->find()
+            ->where(['Flats.id' => $flatId])
+            ->firstOrFail();
+        Log::debug(print_r($flat, true));
+                $resideType = $flat->reside_type;
+                Log::debug('Reside Type: ' . $resideType);
+        return $this->response
+            ->withType('application/json')
+            ->withStringBody(json_encode([
+                'reside_type' => $resideType
+        ]));    
+    }
+
+    
+
 
 }

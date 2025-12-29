@@ -67,6 +67,7 @@ return function (RouteBuilder $routes): void {
     // Optionally, your index/add routes (optional)
     $routes->connect('/flats', ['controller' => 'Flats', 'action' => 'index']);
     $routes->connect('/flats/add', ['controller' => 'Flats', 'action' => 'add']);
+    $routes->connect('/flats/residetype/:id', ['controller' => 'Flats', 'action' => 'resideType']);
 
     // -------------------------------
     // Maintenance Fees Routes

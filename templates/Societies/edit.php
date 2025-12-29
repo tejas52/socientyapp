@@ -81,7 +81,6 @@
         </div>
         <!--end::App Content-->
       </main>
-<?= $this->Form->end() ?>
 
 <?= $this->Html->script('https://code.jquery.com/jquery-3.6.0.min.js') ?>
 <?= $this->Html->script('/adminlte/dist/js/adminlte.min.js') ?>

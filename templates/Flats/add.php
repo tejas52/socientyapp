@@ -43,6 +43,7 @@
 <?= $this->Form->control('wing_id', ['options' => $wings, 'empty' => 'Select Wing', 'class'=>'form-control']) ?>
 <?= $this->Form->control('flat_no', ['label' => 'Flat Number', 'class'=>'form-control']) ?>
 <?= $this->Form->control('owner_name', ['label' => 'Owner Name', 'class'=>'form-control']) ?>
+<?= $this->Form->control('reside_type', ['options' => $reside_type, 'empty' => 'Type', 'class'=>'form-control']) ?>
 <?= $this->Form->control('member_id', ['options' => $members, 'empty' => 'Assign Member', 'class'=>'form-control']) ?>
 
 <?= $this->Form->button(__('Save'),['class'=>'btn btn-info']) ?>

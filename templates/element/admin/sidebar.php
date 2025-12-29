@@ -57,9 +57,7 @@
                   </li>
                 </ul>
               </li>
-              <li class="nav-item">
-                 <?= $this->Html->link("Societies ({$societiesCount})", ['controller'=>'Societies','action'=>'index','class'=>'nav-icon bi bi-box-seam-fill'], ['style'=>'color:white; text-decoration:none;']) ?>
-              </li>
+              
               <li class="nav-item">
                 <a href="<?= $this->Url->build(['controller' => 'Societies', 'action' => 'index']) ?>" class="nav-link">
                     <i class="nav-icon bi bi-box-seam-fill"></i>
@@ -212,6 +210,23 @@
                     <i class="nav-icon bi bi-box-seam-fill"></i>
                     <p>
                         Maintenance Charges
+                        <i class="nav-arrow bi bi-chevron-right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="../forms/general.html" class="nav-link active">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>General Elements</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="<?= $this->Url->build(['controller' => 'MaintenanceCharges', 'action' => 'setRate']) ?>" class="nav-link">
+                    <i class="nav-icon bi bi-box-seam-fill"></i>
+                    <p>
+                        Maintenance Rate
                         <i class="nav-arrow bi bi-chevron-right"></i>
                     </p>
                 </a>

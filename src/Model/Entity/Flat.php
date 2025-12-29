@@ -13,6 +13,7 @@ class Flat extends Entity
         'number_id' => true,
         'flat_no' => true, 
         'owner_name' => true,
+        'reside_type' => true,
         'member_id' => true,
         'created' => true,
         'modified' => true,

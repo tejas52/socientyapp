@@ -41,22 +41,12 @@
                     <?= $this->Form->create($maintenanceCharge) ?>
                     <!--begin::Body-->
                     <div class="card-body">
-                      <div class="mb-3">
-                        <?= $this->Form->control('paid_date', [
-                            'type'  => 'date',
-                            'value' => (new DateTime('now', new DateTimeZone('Asia/Kolkata')))->format('Y-m-d'),
-                            'label' => 'Payment Date    ',
-                            'class' => 'form-control'
-                        ]) ?>
-                      </div>
-                      <div class="mb-3">
-                            <?= $this->Form->control('society_id', ['options' => $societies, 'empty'=>'-- Select Society --','class' => 'form-control']) ?>
-                                                </div>
+                      
                         <div class="mb-3">
                             <?= $this->Form->control('wing_id', ['options' => $wings, 'empty'=>'-- Select Wing --','class' => 'form-control']) ?>
                       </div>
                       <div class="mb-3">
-                        <?= $this->Form->control('flat_id', ['options' => $flats, 'empty'=>'-- Select Flat --','class' => 'form-control']) ?>
+                        <?= $this->Form->control('amount', ['options' => $amount, 'empty'=>'-- Select Flat --','class' => 'form-control']) ?>
                       </div>
                       <div class="mb-3">
                         <?= $this->Form->control('year', ['type'=>'select', 'options'=>$yearOptions, 'empty'=>'-- Select Year --', 'class' => 'form-control']) ?>
@@ -65,14 +55,11 @@
                         <?= $this->Form->control('month', ['type'=>'select', 'options'=>$monthOptions, 'empty'=>'-- Select Month --', 'class' => 'form-control']) ?>
                       </div>
                       <div class="mb-3">
-                        <?= $this->Form->control('amount',['class' => 'form-control']) ?>
+                        <?= $this->Form->control('amount',['class' => 'form-control ']) ?>
 
                       </div>
                       <div class="mb-3">
-<?= $this->Form->control('penalty', ['class' => 'form-control','readonly'=>true] ) ?>
-                      </div>
-                      <div class="mb-3">
-                        <?= $this->Form->control('penalty_paid', ['class' => 'form-control'] ) ?>
+<?= $this->Form->control('penalty', ['class' => 'form-control'] ) ?>
                       </div>
                       <div class="mb-3">
 <?= $this->Form->control('status', ['options' => ['Pending'=>'Pending','Paid'=>'Paid'], 'class'=>'form-control']) ?>
@@ -138,50 +125,6 @@
                     $.each(data, function(key, value) {
                         flatSelect.append('<option value="' + key + '">' + value + '</option>');
                     });
-                }
-            });
-        });
-
-        //Get reside type for flatSelect
-        $('#flat-id').change(function() {
-            var flatId = $(this).val();
-            alert(flatId);
-            $.ajax({
-                url: '/flats/get_reside_type/' + flatId,
-                method: 'GET',
-                success: function(data) {
-                    console.log(data.reside_type);
-                    if(data.reside_type === 'Owner') {
-                        alert('Selected flat is owned by an owner.');
-                        $('#amount').val(1300);
-                    } else if(data.reside_type === 'Tenant') {
-                        $('#amount').val(1500);
-                    } 
-                   
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error fetching reside type:', error);
-                }
-            });
-        });
-
-        //Calculate panelty
-        //Get reside type for flatSelect
-        $('#month').change(function() {
-            var month = $(this).val();
-            var year = $('#year').val();
-            var paiddate = $('#paid-date').val();
-            $.ajax({
-                url: '/maintenance-charges/calculate_penalty/' + paiddate + '/' + month + '/' + year,
-                method: 'GET',
-                success: function(data) {
-                    alert('Penalty calculated: ' + data.total_panelty);
-                    console.log(data);
-                    $('#penalty').val(data.total_panelty);
-                   
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error calculating penalty:', error);
                 }
             });
         });
