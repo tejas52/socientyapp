@@ -92,7 +92,7 @@
 
         }
         $phone = $charge->flat->member->phone;
-         $sms = "Dear " . $charge->flat->member->name . ", Your maintenance charge for " . $monthname . "-" . $charge->year . " of Rs." . $charge->amount . " is paid successfully. Thank you."; 
+         $sms = "Dear " . $charge->flat->member->name . ", Your maintenance charge for " . $monthname . "-" . $charge->year . " of Rs." . $charge->amount . " is paid successfully. You can find payment receipt on your email. Thank you."; 
         ?>
                         <tr class="align-middle">
                                                       <td><?= h($charge->id) ?></td>

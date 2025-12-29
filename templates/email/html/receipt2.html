@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+    body {
+        font-family: DejaVu Sans, sans-serif;
+        font-size: 13px;
+    }
+
+    .receipt {
+        width: 800px;
+        margin: auto;
+        border: 3px solid #b44;
+        padding: 12px;
+        position: relative;
+    }
+
+    .header {
+        border: 2px solid #b44;
+        padding: 10px;
+        background: #c66;
+        color: #fff;
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+    }
+
+    .subheader {
+        text-align: center;
+        font-size: 12px;
+        margin-top: 5px;
+        color: #b44;
+        font-weight: bold;
+    }
+
+    .row {
+        display: table;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .col {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    .right {
+        text-align: right;
+    }
+
+    .label {
+        color: #b44;
+        font-weight: bold;
+    }
+
+    .box {
+        border: 2px solid #b44;
+        padding: 10px;
+        margin-top: 12px;
+    }
+
+    .hand {
+        color: #0b3fa5; /* Blue ink */
+        font-family: "Comic Sans MS", cursive;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .wing {
+        background: #b44;
+        color: #fff;
+        padding: 4px 10px;
+        font-weight: bold;
+    }
+
+    .stamp {
+        position: absolute;
+        right: 60px;
+        bottom: 40px;
+        width: 120px;
+        opacity: 0.85;
+    }
+
+    .footer {
+        margin-top: 30px;
+        display: table;
+        width: 100%;
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="receipt">
+
+    <!-- HEADER -->
+    <div class="subheader">|| SHREE GANESHAY NAMAH ||</div>
+    <div class="header">RAMAA RESIDENCY</div>
+    <div class="subheader">
+        Near Kingrose Villa, Palanpur-Canal Road, Jahangirabad, SURAT-395005
+    </div>
+
+    <!-- RECEIPT INFO -->
+    <div class="row">
+        <div class="col">
+            <span class="label">Receipt No:</span>
+            <span class="hand"><?= $receipt_no ?></span>
+        </div>
+        <div class="col" style="text-align:center;">
+            <span class="wing">WING <?= $wing ?></span>
+        </div>
+        <div class="col right">
+            <span class="label">Date:</span>
+            <span class="hand"><?= $date ?></span>
+        </div>
+    </div>
+
+    <!-- NAME -->
+    <div class="box">
+        <span class="label">Received with thanks from Shree</span><br><br>
+        <span class="hand">M/s. <?= $name ?></span>
+    </div>
+
+    <!-- MAINTENANCE -->
+    <div class="box">
+        <span class="label">
+            Towards maintenance Charges fund for the month for
+        </span>
+        <span class="hand"><?= $month ?></span>
+        <br><br>
+
+        <span class="label">Flat No.</span>
+        <span class="hand"><?= $flat ?></span>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <span class="hand">₹ <?= $amount ?> /-</span>
+    </div>
+
+    <!-- AMOUNT WORDS -->
+    <div class="row">
+        <div class="col">
+            <span class="label">Amount in Words:</span><br>
+            <span class="hand"><?= $amount_words ?></span>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="col">
+            <strong>Thank You</strong><br>
+            Have a Great Day
+        </div>
+        <div class="col right">
+            <strong>For, Ramaa Residency (<?= $wing ?>)</strong><br>
+            <span class="hand"><?= $signed_by ?></span><br>
+            <span class="label">Sign / Stamp</span>
+        </div>
+    </div>
+
+    <!-- BLUE STAMP IMAGE -->
+    <img src="<?= $stamp_path ?>" class="stamp">
+
+</div>
+
+</body>
+</html>

@@ -145,14 +145,12 @@
         //Get reside type for flatSelect
         $('#flat-id').change(function() {
             var flatId = $(this).val();
-            alert(flatId);
             $.ajax({
                 url: '/flats/get_reside_type/' + flatId,
                 method: 'GET',
                 success: function(data) {
                     console.log(data.reside_type);
                     if(data.reside_type === 'Owner') {
-                        alert('Selected flat is owned by an owner.');
                         $('#amount').val(1300);
                     } else if(data.reside_type === 'Tenant') {
                         $('#amount').val(1500);
@@ -175,7 +173,6 @@
                 url: '/maintenance-charges/calculate_penalty/' + paiddate + '/' + month + '/' + year,
                 method: 'GET',
                 success: function(data) {
-                    alert('Penalty calculated: ' + data.total_panelty);
                     console.log(data);
                     $('#penalty').val(data.total_panelty);
                    

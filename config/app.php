@@ -220,7 +220,7 @@ return [
             'port' => 587,
             'timeout' => 30,
             'username' => 'tejasparmar1991@gmail.com',
-            'password' => 'Tej@s2311', // NOT Gmail login password
+            'password' => 'uymj utwm fvdw zero', // NOT Gmail login password
             'client' => null,
             'tls' => true,
         ],
@@ -238,7 +238,7 @@ return [
     'Email' => [
         'default' => [
             'transport' => 'default',
-            'from' => ['tejasparmar1991@gmail.com' => 'Society Managerment'],
+            'from' => ['tejasparmar1991@gmail.com' => 'Society Management'],
             'charset' => 'utf-8',
             'headerCharset' => 'utf-8',
             'emailFormat' => 'html', // html | text
