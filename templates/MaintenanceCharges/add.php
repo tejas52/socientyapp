@@ -53,10 +53,13 @@
                             <?= $this->Form->control('society_id', ['options' => $societies, 'empty'=>'-- Select Society --','class' => 'form-control']) ?>
                                                 </div>
                         <div class="mb-3">
-                            <?= $this->Form->control('wing_id', ['options' => $wings, 'empty'=>'-- Select Wing --','class' => 'form-control']) ?>
+                            <?= $this->Form->control('wing_id', ['options' => '', 'empty'=>'-- Select Wing --','class' => 'form-control']) ?>
                       </div>
                       <div class="mb-3">
-                        <?= $this->Form->control('flat_id', ['options' => $flats, 'empty'=>'-- Select Flat --','class' => 'form-control']) ?>
+                        <?= $this->Form->control('flat_id', ['options' => '','empty'=>'-- Select Flat --','class' => 'form-control']) ?>
+                      </div>
+                      <div class="mb-3">
+                        <?= $this->Form->control('member_id', ['options' => '', 'empty'=>'-- Select Member --','class' => 'form-control']) ?>
                       </div>
                       <div class="mb-3">
                         <?= $this->Form->control('year', ['type'=>'select', 'options'=>$yearOptions, 'empty'=>'-- Select Year --', 'class' => 'form-control']) ?>
@@ -72,10 +75,10 @@
 <?= $this->Form->control('penalty', ['class' => 'form-control','readonly'=>true] ) ?>
                       </div>
                       <div class="mb-3">
-                        <?= $this->Form->control('penalty_paid', ['class' => 'form-control'] ) ?>
+                        <?= $this->Form->control('penalty_paid', ['class' => 'form-control','value'=>0] ) ?>
                       </div>
                       <div class="mb-3">
-<?= $this->Form->control('status', ['options' => ['Pending'=>'Pending','Paid'=>'Paid'], 'class'=>'form-control']) ?>
+<?= $this->Form->control('status', ['options' => ['Paid'=>'Paid'], 'class'=>'form-control']) ?>
                       </div>
                     </div>
                     <!--end::Body-->
@@ -155,6 +158,23 @@
                     } else if(data.reside_type === 'Tenant') {
                         $('#amount').val(1500);
                     } 
+                   
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching reside type:', error);
+                }
+            });
+      
+            $.ajax({
+                url: '/flats/get_member/' + flatId,
+                method: 'GET',
+                success: function(data) {
+                   console.log(data);
+                   var memberSelect = $('#member-id');
+                    memberSelect.empty();
+                    $.each(data, function(key, value) {
+                        memberSelect.append('<option value="' + key + '">' + value + '</option>');
+                    });
                    
                 },
                 error: function(xhr, status, error) {

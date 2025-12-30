@@ -11,6 +11,7 @@ class MaintenanceCharge extends Entity
         'society_id' => true,
         'wing_id' => true,
         'flat_id' => true,
+        'member_id'=>true,
         'month' => true,
         'year' => true,
         'amount' => true,

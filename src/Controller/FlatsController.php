@@ -9,6 +9,8 @@ class FlatsController extends AppController
     public function initialize(): void
     {
         parent::initialize();
+        $this->Members = $this->fetchTable('Members');
+        $this->Flat = $this->fetchTable('Flats');
         $this->loadComponent('Flash'); // ✅ REQUIRED
 
     }
@@ -152,6 +154,34 @@ class FlatsController extends AppController
             ->withType('application/json')
             ->withStringBody(json_encode([
                 'reside_type' => $resideType
+        ]));    
+    }
+
+    //GET MEMBER BY FLAT
+    public function getMember($flatId = null)
+    {
+
+        $this->request->allowMethod(['get']);
+        $this->autoRender = false;
+        $flatId = (int)$flatId;
+ 
+
+if (!$flatId) {
+            throw new BadRequestException('Invalid Flat ID');
+        }
+
+
+        $flat = $this->Flats->find()
+            ->where(['Flats.id' => $flatId])
+            ->firstOrFail();
+        $member = $this->Members->get($flat->member_id);
+        Log::debug("*****************************");
+        Log::debug(print_r($member, true));
+                
+        return $this->response
+            ->withType('application/json')
+            ->withStringBody(json_encode([
+                $member->id => $member->name
         ]));    
     }
 
