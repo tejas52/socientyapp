@@ -4,18 +4,19 @@ declare(strict_types=1);
 namespace App\Controller;
 use Cake\Log\Log;
 
-class FlatsController extends AppController
+class IncomeExppenceController extends AppController
 {
     public function initialize(): void
     {
         parent::initialize();
-        $this->Members = $this->fetchTable('Members');
+        $this->Members = $this->fetchTable('IncomeExpence');
         $this->Flat = $this->fetchTable('Flats');
         $this->loadComponent('Flash'); // ✅ REQUIRED
 
     }
     public function index()
     {
+        echo "good"; exit;
        $flats = $this->fetchTable('Flats')
     ->find()
     ->contain([
@@ -26,50 +27,62 @@ class FlatsController extends AppController
         $this->set(compact('flats'));
     }
 
-    public function view($id = null)
-    {
-      $flat = $this->fetchTable('Flats')->get($id, [
-    'contain' => [
-        'Wings.Societies', // include the society related to the wing
-        'Members'
-    ],
-]);
-        $this->set(compact('flat'));
-    }
+//     public function view($id = null)
+//     {
+//       $flat = $this->fetchTable('Flats')->get($id, [
+//     'contain' => [
+//         'Wings.Societies', // include the society related to the wing
+//         'Members'
+//     ],
+// ]);
+//         $this->set(compact('flat'));
+//     }
 
     public function add()
-{
-    $flatsTable = $this->fetchTable('Flats');
-    $flat = $flatsTable->newEmptyEntity();
-    try {
-        if ($this->request->is('post')) {
-            $flat = $flatsTable->patchEntity($flat, $this->request->getData());
-            // echo "<pre>"; print_r($flat);
-            // echo "*****************";
-            // print($this->request->getData());
-            
+    {
+        $societiesTable = $this->getTableLocator()->get('Societies');
+        $wingsTable = $this->getTableLocator()->get('Wings');
+        $flatsTable = $this->getTableLocator()->get('Flats');
 
-            if ($flatsTable->save($flat)) {
-                $this->Flash->success(__('The flat has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('Unable to save the flat. Please check for validation errors.'));
+        $societies = $societiesTable->find('list')->toArray();
+        $wings = $wingsTable->find('list')->toArray();
+        $flats = $flatsTable->find('list')->toArray();
+
+        $incomeexpenceTable = $this->fetchTable('IncomeExpence');
+        $transaction = $incomeexpenceTable->newEmptyEntity();
+        $transaction_type = ['General'=>'General','Maintenance'=>'Maintenance','Parking Rent'=>'Parking Rent'];
+        try {
+            if ($this->request->is('post')) {
+                echo "<pre>"; print_r($this->request->getData()); exit;
+                $data = $this->request->getData();
+                if($data['transaction_type'] == 'Maintenance'){
+
+                }
+                $incomeexpence = $incomeexpenceTable->patchEntity($transaction, $this->request->getData());
+                // echo "<pre>"; print_r($flat);
+                // echo "*****************";
+                // print($this->request->getData());
+                
+
+                if ($flatsTable->save($flat)) {
+                    $this->Flash->success(__('The flat has been saved.'));
+                    return $this->redirect(['action' => 'index']);
+                } else {
+                    $this->Flash->error(__('Unable to save the flat. Please check for validation errors.'));
+                }
             }
+        } catch (\Exception $e) {
+            // Log or show the error
+            $this->Flash->error(__('An unexpected error occurred: {0}', $e->getMessage()));
+
+            // Optionally log the full error for debugging
+            \Cake\Log\Log::error('Error saving flat: ' . $e->getMessage());
         }
-    } catch (\Exception $e) {
-        // Log or show the error
-        $this->Flash->error(__('An unexpected error occurred: {0}', $e->getMessage()));
 
-        // Optionally log the full error for debugging
-        \Cake\Log\Log::error('Error saving flat: ' . $e->getMessage());
+    
+
+        $this->set(compact('transaction_type','societies', 'wings', 'flats'));
     }
-
-    $wings = $this->fetchTable('Wings')->find('list')->all();
-    $members = $this->fetchTable('Members')->find('list')->all();
-    $reside_type = ['Owner' => 'Owner', 'Tenant' => 'Tenant']; 
-
-    $this->set(compact('flat', 'wings', 'members', 'reside_type'));
-}
 
     public function edit($id = null)
     {

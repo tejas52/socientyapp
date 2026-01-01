@@ -30,7 +30,7 @@ class MaintenanceChargesController extends AppController
         ->contain([
             'Societies',
             'Wings',
-            'Flats' => ['Members']
+            'Members' => ['Flats']
         ]);
 
     // 🔹 Get filter values from URL (GET)

@@ -33,7 +33,7 @@
                 <div class="card card-primary card-outline mb-4">
                   <!--begin::Header-->
                   <div class="card-header">
-                    <div class="card-title">Add Wing</div>
+                    <div class="card-title">Add Flat</div>
                   </div>
                   <!--end::Header-->
                   <!--begin::Form-->
@@ -44,7 +44,6 @@
 <?= $this->Form->control('flat_no', ['label' => 'Flat Number', 'class'=>'form-control']) ?>
 <?= $this->Form->control('owner_name', ['label' => 'Owner Name', 'class'=>'form-control']) ?>
 <?= $this->Form->control('reside_type', ['options' => $reside_type, 'empty' => 'Type', 'class'=>'form-control']) ?>
-<?= $this->Form->control('member_id', ['options' => $members, 'empty' => 'Assign Member', 'class'=>'form-control']) ?>
 
 <?= $this->Form->button(__('Save'),['class'=>'btn btn-info']) ?>
 <?= $this->Form->end() ?>

@@ -16,6 +16,7 @@ class MaintenanceChargesTable extends Table
         $this->belongsTo('Societies');
         $this->belongsTo('Wings');
         $this->belongsTo('Flats');
+        $this->belongsTo('Members');
         $this->hasMany('MaintenancePayments', [
             'foreignKey' => 'maintenance_charge_id'
         ]);
