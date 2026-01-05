@@ -46,9 +46,9 @@ class MembersTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->notEmptyString('name', 'Name is required')
-            ->email('email', false, 'Enter a valid email address')
-            ->notEmptyString('phone', 'Phone number is required');
+            ->notEmptyString('name', 'Name is required');
+            // ->email('email', false, 'Enter a valid email address')
+            // ->notEmptyString('phone', 'Phone number is required');
 
         return $validator;
     }

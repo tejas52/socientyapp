@@ -62,6 +62,9 @@
                         <?= $this->Form->control('transaction_type', ['options' => $transaction_type,'empty'=>'-- Select Transaction Type --','class' => 'form-control']) ?>
                       </div>
                       <div class="mb-3">
+                        <?= $this->Form->control('transaction_mode', ['options' => $transaction_mode,'empty'=>'-- Select Transaction Mode --','class' => 'form-control']) ?>
+                      </div>
+                      <div class="mb-3">
                           <?= $this->Form->control('description', [
                               'type'  => 'textarea',
                               'class' => 'form-control',
@@ -143,7 +146,7 @@
         //Get reside type for flatSelect
         $('#flat-id').change(function() {
             var flatId = $(this).val();
-            $.ajax({
+            /* $.ajax({
                 url: '/flats/get_reside_type/' + flatId,
                 method: 'GET',
                 success: function(data) {
@@ -158,7 +161,7 @@
                 error: function(xhr, status, error) {
                     console.error('Error fetching reside type:', error);
                 }
-            });
+            }); */
       
             $.ajax({
                 url: '/flats/get_member/' + flatId,

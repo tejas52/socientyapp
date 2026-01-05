@@ -50,7 +50,7 @@ class MaintenanceChargesController extends AppController
     $this->paginate = [
         'limit' => 25,
         'order' => [
-            'MaintenanceCharges.id'    => 'DESC'
+            'MaintenanceCharges.paid_date'    => 'DESC'
         ]
     ];
 
@@ -373,6 +373,10 @@ $dueDate = FrozenDate::createFromFormat(
 
 $daysDiff = $dueDate->diffInDays($currentDate, false); // negative if overdue
 $totalpanelty = (ceil($daysDiff/5))*100;
+if($totalpanelty < 0)
+{
+    $totalpanelty = 0;
+}
 Log::debug("Total ".$totalpanelty);
         Log::debug("Difference ".$daysDiff);
             Log::debug(print_r($formattedDate, true));

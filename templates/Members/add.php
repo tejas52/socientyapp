@@ -40,8 +40,8 @@
 
 <?= $this->Form->create($member) ?>
     <?= $this->Form->control('name',['class' => 'form-control']) ?>
-    <?= $this->Form->control('email',['class' => 'form-control']) ?>
-    <?= $this->Form->control('phone',['class' => 'form-control']) ?>
+    <?= $this->Form->control('email',['class' => 'form-control','required' => false]) ?>
+    <?= $this->Form->control('phone',['class' => 'form-control','required' => false]) ?>
     <?= $this->Form->control('society_id', ['options' => $societies, 'class' => 'form-control']) ?>
     <?= $this->Form->control('wing_id', ['options' => $wings, 'class' => 'form-control']) ?>
     <?= $this->Form->control('flat_id', ['options' => $flats, 'class' => 'form-control']) ?>

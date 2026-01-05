@@ -15,7 +15,7 @@ class MembersController extends AppController
     public function index()
     {
         $members = $this->Members->find('all')
-            ->contain(['Societies', 'Wings', 'Flats']);
+            ->contain(['Societies', 'Wings', 'Flats'])->order(['Flats.flat_no' => 'ASC']);
         $this->set(compact('members'));
     }
 

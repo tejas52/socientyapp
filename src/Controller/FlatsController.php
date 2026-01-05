@@ -22,6 +22,7 @@ class FlatsController extends AppController
         'Wings.Societies', // nested contain
         'Members'
     ])
+    ->order(['Flats.flat_no' => 'ASC'])
     ->all(); // assuming flats belongsTo wings + members
         $this->set(compact('flats'));
     }

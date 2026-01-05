@@ -9,7 +9,7 @@ class IncomeExppenceController extends AppController
     public function initialize(): void
     {
         parent::initialize();
-        $this->Members = $this->fetchTable('IncomeExpence');
+        $this->IncomeExpence = $this->fetchTable('IncomeExpence');
         $this->Flat = $this->fetchTable('Flats');
         $this->loadComponent('Flash'); // ✅ REQUIRED
 
@@ -43,32 +43,39 @@ class IncomeExppenceController extends AppController
         $societiesTable = $this->getTableLocator()->get('Societies');
         $wingsTable = $this->getTableLocator()->get('Wings');
         $flatsTable = $this->getTableLocator()->get('Flats');
-
+        $incomeexpenceTable = $this->getTableLocator()->get('IncomeExpence');
         $societies = $societiesTable->find('list')->toArray();
         $wings = $wingsTable->find('list')->toArray();
         $flats = $flatsTable->find('list')->toArray();
 
-        $incomeexpenceTable = $this->fetchTable('IncomeExpence');
+        $incomeexpence = $this->fetchTable('IncomeExpence');
         $transaction = $incomeexpenceTable->newEmptyEntity();
         $transaction_type = ['General'=>'General','Maintenance'=>'Maintenance','Parking Rent'=>'Parking Rent'];
+        $transaction_mode = ['Credit'=>'Credit','Debit'=>'Debit'];
         try {
             if ($this->request->is('post')) {
-                echo "<pre>"; print_r($this->request->getData()); exit;
+                // echo "<pre>"; print_r($this->request->getData()); exit;
                 $data = $this->request->getData();
-                if($data['transaction_type'] == 'Maintenance'){
-
-                }
-                $incomeexpence = $incomeexpenceTable->patchEntity($transaction, $this->request->getData());
-                // echo "<pre>"; print_r($flat);
+                
+                
                 // echo "*****************";
                 // print($this->request->getData());
-                
+                if($data['transaction_mode'] == 'Credit'){
+                    $data['credit_amount'] = $data['amount'];
 
-                if ($flatsTable->save($flat)) {
+
+                }
+                if($data['transaction_mode'] == 'Debit'){
+                    $data['debit_amount'] = $data['amount'];
+                }
+                unset ($data['amount']);
+$incomeexpence = $this->IncomeExpence->newEmptyEntity();
+$incomeexpence = $this->IncomeExpence->patchEntity($incomeexpence, $data);
+                if ($incomeexpenceTable->save($incomeexpence)) {
                     $this->Flash->success(__('The flat has been saved.'));
                     return $this->redirect(['action' => 'index']);
                 } else {
-                    $this->Flash->error(__('Unable to save the flat. Please check for validation errors.'));
+                    $this->Flash->error(__('Unable to save the Income/Expence. Please check for validation errors.'));
                 }
             }
         } catch (\Exception $e) {
@@ -81,7 +88,7 @@ class IncomeExppenceController extends AppController
 
     
 
-        $this->set(compact('transaction_type','societies', 'wings', 'flats'));
+        $this->set(compact('transaction_type','transaction_mode','societies', 'wings', 'flats'));
     }
 
     public function edit($id = null)
