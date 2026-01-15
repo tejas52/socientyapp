@@ -62,10 +62,22 @@
                         <?= $this->Form->control('member_id', ['options' => '', 'empty'=>'-- Select Member --','class' => 'form-control']) ?>
                       </div>
                       <div class="mb-3">
-                        <?= $this->Form->control('year', ['type'=>'select', 'options'=>$yearOptions, 'empty'=>'-- Select Year --', 'class' => 'form-control']) ?>
+                        <?= $this->Form->control('year', [
+                            'type'    => 'select',
+                            'options'=> $yearOptions,
+                            'empty'  => '-- Select Year --',
+                            'value'  => date('Y'),   // 👈 current year
+                            'class'  => 'form-control'
+                        ]) ?>
                       </div>
                        <div class="mb-3">
-                        <?= $this->Form->control('month', ['type'=>'select', 'options'=>$monthOptions, 'empty'=>'-- Select Month --', 'class' => 'form-control']) ?>
+                        <?= $this->Form->control('month', [
+    'type'    => 'select',
+    'options'=> $monthOptions,
+    'empty'  => '-- Select Month --',
+    'value'  => date('n'),   // 👈 current month (1–12)
+    'class'  => 'form-control'
+]) ?>
                       </div>
                       <div class="mb-3">
                         <?= $this->Form->control('amount',['class' => 'form-control']) ?>
@@ -185,23 +197,38 @@
 
         //Calculate panelty
         //Get reside type for flatSelect
-        $('#month').change(function() {
-            var month = $(this).val();
-            var year = $('#year').val();
-            var paiddate = $('#paid-date').val();
-            $.ajax({
-                url: '/maintenance-charges/calculate_penalty/' + paiddate + '/' + month + '/' + year,
-                method: 'GET',
-                success: function(data) {
-                    console.log(data);
-                    $('#penalty').val(data.total_panelty);
-                   
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error calculating penalty:', error);
-                }
-            });
-        });
+        $('#month, #year, #paid-date, #flat-id').on('change', calculatePenalty);
+
     });
+    function calculatePenalty() {
+        var month    = $('#month').val();
+        var year     = $('#year').val();
+        var paiddate = $('#paid-date').val();
+        var flatNo   = $('#flat-id').val(); // 👈 flat number
+
+        // Optional: prevent call if required fields missing
+        if (!month || !year || !paiddate || !flatNo) {
+            return;
+        }
+
+        $.ajax({
+            url: '/maintenance-charges/calculate_penalty/' +
+                  paiddate + '/' + month + '/' + year + '/' + flatNo,
+            method: 'GET',
+            success: function (data) {
+                console.log(data);
+                $('#penalty').val(data.total_panelty);
+            },
+            error: function (xhr, status, error) {
+                console.error('Error calculating penalty:', error);
+            }
+        });
+    }
+
+// 🔥 Trigger on ALL required fields
+$('#month, #year, #paid-date, #flat-no').on('change', function () {
+    calculatePenalty();
+});
+
 </script>
 <?php $this->end(); ?>

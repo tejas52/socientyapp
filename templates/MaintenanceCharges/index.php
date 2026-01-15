@@ -71,6 +71,14 @@ $this->Paginator->setTemplates([
                                 'class' => 'form-control'
                             ]) ?>
                         </div>
+                        <div class="col-md-3">
+                            <?= $this->Form->control('flat_no', [
+                                'label' => 'Flat Number',
+                                'placeholder' => 'Enter Flat No',
+                                'value' => $this->request->getQuery('flat_no'),
+                                'class' => 'form-control'
+                            ]) ?>
+                        </div>
 
                         <div class="col-md-3 align-self-end">
                             <button class="btn btn-info">Filter</button>
@@ -83,6 +91,7 @@ $this->Paginator->setTemplates([
                       <thead>
                         <tr>
                           <th style="width: 10px">#</th>
+                          <th style="width: 10px">Date</th>
                           <th class="w-15">Society</th>
                           <th class="w-10">Wing</th>
                           <th class="w-10">Flat</th>
@@ -144,6 +153,7 @@ $this->Paginator->setTemplates([
         ?>
                         <tr class="align-middle">
                                                       <td><?= h($charge->id) ?></td>
+                                                      <td><?= h($charge->paid_date->format('d/m/y')) ?></td>
 
                           <td><?= h($charge->society->name) ?></td>
         <td><?= h($charge->wing->name) ?></td>

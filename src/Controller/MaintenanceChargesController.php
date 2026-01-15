@@ -8,6 +8,8 @@ use Cake\Mailer\Mailer;
 use Cake\Log\Log;
 use Cake\Http\Response;
 use Dompdf\Dompdf;
+use Cake\I18n\Date;
+
 
 class MaintenanceChargesController extends AppController
 {
@@ -36,6 +38,7 @@ class MaintenanceChargesController extends AppController
     // 🔹 Get filter values from URL (GET)
     $month = $this->request->getQuery('month');
     $year  = $this->request->getQuery('year');
+    $flot_no = $this->request->getQuery('flat_no');
 
     // 🔹 Apply filters
     if (!empty($month)) {
@@ -45,12 +48,16 @@ class MaintenanceChargesController extends AppController
     if (!empty($year)) {
         $query->where(['MaintenanceCharges.year' => $year]);
     }
-
+    if ($this->request->getQuery('flat_no')) {
+        $query->where([
+            'Flats.flat_no LIKE' => '%' . $this->request->getQuery('flat_no') . '%'
+        ]);
+    }
     // 🔹 Pagination config
     $this->paginate = [
         'limit' => 25,
         'order' => [
-            'MaintenanceCharges.paid_date'    => 'DESC'
+            'MaintenanceCharges.id'    => 'DESC'
         ]
     ];
 
@@ -89,6 +96,7 @@ public function add()
     if ($this->request->is('post')) {
         $maintenanceCharge = $this->MaintenanceCharges->patchEntity($maintenanceCharge, $this->request->getData());
         $reqdata = $this->request->getData();
+        $paid_date = (new Date($reqdata['paid_date']))->format('d/m/Y');
         $member = $this->Members->find()
             ->where(['Members.flat_id' => $reqdata['flat_id']])
             ->first();
@@ -105,7 +113,7 @@ public function add()
             // Prepare data for PDF
             $receiptData = [
                 'receipt_no' => $maintenanceCharge->id,
-                'date' => date('d/m/Y'),
+                'date' => $paid_date,
                 'name' => $member->name,
                 'month' => $months[$reqdata['month']],
                 'year' => $reqdata['year'],
@@ -123,7 +131,7 @@ public function add()
 
             // Send Email with PDF attachment
             $mailer = new Mailer('default');
-            $mailer->setTo($member->email ?: 'default@example.com')
+            $mailer->setTo($member->email ?: '')
                 ->setSubject('Maintenance Receipt')
                 ->setEmailFormat('html')
                 ->setViewVars([
@@ -360,17 +368,24 @@ private function numberToWords($number)
     //Calculate Panalty Amount
     public function calculatePenalty($paymentdate, $duemonth, $dueyear){
             $currentDate = new FrozenDate();
+            $currentDate = $paymentdate;
+           $currentDate = FrozenDate::createFromFormat(
+    'Y-m-d',
+    $currentDate
+);
+
             $formattedDate = $currentDate->format('d-m-Y');
             $duedate = "10-".$duemonth."-".$dueyear;
 
 
-$currentDate = new FrozenDate(); // today
+// $currentDate = new FrozenDate(); // today
 
 $dueDate = FrozenDate::createFromFormat(
     'd-m-Y',
     '10-' . $duemonth . '-' . $dueyear
 );
-
+Log::debug("Due Date ".$duedate);
+Log::debug("Current Date ".$formattedDate);
 $daysDiff = $dueDate->diffInDays($currentDate, false); // negative if overdue
 $totalpanelty = (ceil($daysDiff/5))*100;
 if($totalpanelty < 0)
